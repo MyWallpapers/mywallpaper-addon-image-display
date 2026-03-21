@@ -27,9 +27,7 @@
     }
   },
   "permissions": {
-    "fileAccess": {
-      "reason": "Display wallpaper image"
-    }
+    "fileAccess": true
   },
   "defaultLayout": {
     "xPercent": 0,
