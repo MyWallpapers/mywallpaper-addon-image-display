@@ -1,6 +1,6 @@
 {
   "name": "Image Display",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Displays an image as a fullscreen background layer",
   "author": "MyWallpaper",
   "entry": "index.js",
