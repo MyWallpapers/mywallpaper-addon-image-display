@@ -1,29 +1,47 @@
 {
   "name": "Image Display",
-  "version": "1.2.1",
+  "version": "1.2.2",
   "description": "Displays an image as a fullscreen background layer",
   "author": "MyWallpaper",
   "entry": "index.js",
   "settings": {
     "sourceType": {
       "type": "select",
-      "label": "Image Source",
-      "default": "local",
-      "options": [
-        { "label": "Local Upload", "value": "local" },
-        { "label": "Online URL", "value": "url" }
-      ]
+      "content": {
+        "label": "Image Source",
+        "default": "local",
+        "options": [
+          {
+            "label": "Local Upload",
+            "value": "local"
+          },
+          {
+            "label": "Online URL",
+            "value": "url"
+          }
+        ]
+      }
     },
     "wallpaperImage": {
       "type": "image",
-      "label": "Upload Image",
-      "showIf": { "setting": "sourceType", "equals": "local" }
+      "content": {
+        "label": "Upload Image",
+        "showIf": {
+          "setting": "sourceType",
+          "equals": "local"
+        }
+      }
     },
     "imageUrl": {
       "type": "string",
-      "label": "Image URL",
-      "default": "",
-      "showIf": { "setting": "sourceType", "equals": "url" }
+      "content": {
+        "label": "Image URL",
+        "default": "",
+        "showIf": {
+          "setting": "sourceType",
+          "equals": "url"
+        }
+      }
     }
   },
   "permissions": {
