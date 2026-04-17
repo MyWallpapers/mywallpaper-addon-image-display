@@ -55,5 +55,6 @@
   },
   "ui": {
     "pointerEvents": "none"
-  }
+  },
+  "repository": "https://github.com/MyWallpapers/mywallpaper-addon-image-display"
 }
