@@ -1,6 +1,20 @@
-import { jsx as a } from "react/jsx-runtime";
-import { useSettings as n, useFiles as p } from "@mywallpaper/sdk-react";
-import { useState as c, useEffect as u } from "react";
+const __MYWALLPAPER_WIDGET_RUNTIME_CONTRACT__ = "1";
+if (!__canvasRuntime) {
+      throw new Error('Canvas runtime globals are unavailable');
+    }
+if (!__canvasRuntime.react || !__canvasRuntime.reactJsxRuntime || !__canvasRuntime.sdkReact || !__canvasRuntime.sdkContracts || !__canvasRuntime.sdkPermissions) {
+      throw new Error('Canvas runtime globals are unavailable');
+    }
+const __canvasRuntimeReact = __canvasRuntime.react;
+const __canvasRuntimeJsxRuntime = __canvasRuntime.reactJsxRuntime;
+const __canvasRuntimeSdk = __canvasRuntime.sdkReact;
+const __canvasRuntimeSdkContracts = __canvasRuntime.sdkContracts;
+const __canvasRuntimeSdkPermissions = __canvasRuntime.sdkPermissions;
+const a = __canvasRuntimeJsxRuntime.jsx;
+const n = __canvasRuntimeSdk.useSettings;
+const p = __canvasRuntimeSdk.useFiles;
+const c = __canvasRuntimeReact.useState;
+const u = __canvasRuntimeReact.useEffect;
 function y() {
   const e = n(), { request: t, isFileReference: l } = p(), [i, o] = c(null);
   u(() => {
