@@ -1,6 +1,6 @@
 {
   "name": "Image Display",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "Displays an image as a fullscreen background layer",
   "author": "MyWallpaper",
   "entry": "index.js",
@@ -42,6 +42,27 @@
           "equals": "url"
         }
       }
+    },
+    "objectFit": {
+      "type": "select",
+      "content": {
+        "label": "Fit",
+        "default": "cover",
+        "options": [
+          {
+            "label": "Cover",
+            "value": "cover"
+          },
+          {
+            "label": "Contain",
+            "value": "contain"
+          },
+          {
+            "label": "Stretch",
+            "value": "fill"
+          }
+        ]
+      }
     }
   },
   "permissions": {
@@ -51,7 +72,8 @@
     "xPercent": 0,
     "yPercent": 0,
     "widthPercent": 100,
-    "heightPercent": 100
+    "heightPercent": 100,
+    "rotation": 0
   },
   "ui": {
     "pointerEvents": "none"
