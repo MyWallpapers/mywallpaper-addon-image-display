@@ -1,9 +1,16 @@
 {
   "name": "Image Display",
-  "version": "1.2.5",
+  "version": "1.2.7",
   "description": "Displays an image as a fullscreen background layer",
   "author": "MyWallpaper",
+  "type": "widget",
   "entry": "index.js",
+  "categories": [
+    "backgrounds",
+    "media",
+    "utility"
+  ],
+  "license": "MIT",
   "settings": {
     "sourceType": {
       "type": "select",
@@ -66,7 +73,13 @@
     }
   },
   "permissions": {
-    "fileAccess": true
+    "fileAccess": true,
+    "network": {
+      "read": true,
+      "domains": [
+        "*.alphacoders.com"
+      ]
+    }
   },
   "defaultLayout": {
     "xPercent": 0,
