@@ -10,11 +10,11 @@ const __canvasRuntimeJsxRuntime = __canvasRuntime.reactJsxRuntime;
 const __canvasRuntimeSdk = __canvasRuntime.sdkReact;
 const __canvasRuntimeSdkContracts = __canvasRuntime.sdkContracts;
 const __canvasRuntimeSdkPermissions = __canvasRuntime.sdkPermissions;
-const l = __canvasRuntimeJsxRuntime.jsx;
-const E = __canvasRuntimeJsxRuntime.jsxs;
-const F = __canvasRuntimeSdk.useSettings;
-const v = __canvasRuntimeSdk.useFiles;
-const s = __canvasRuntimeReact.useState;
+const a = __canvasRuntimeJsxRuntime.jsx;
+const S = __canvasRuntimeJsxRuntime.jsxs;
+const j = __canvasRuntimeSdk.useSettings;
+const F = __canvasRuntimeSdk.useFiles;
+const u = __canvasRuntimeReact.useState;
 const h = __canvasRuntimeReact.useEffect;
 const y = {
   sourceType: "local",
@@ -25,7 +25,7 @@ const y = {
   width: "100%",
   height: "100%",
   pointerEvents: "none"
-}, j = {
+}, _ = "x-mywallpaper-cache-mode", v = "https://cdn.mywallpaper.online", D = {
   ...L,
   display: "grid",
   placeItems: "center",
@@ -37,19 +37,19 @@ const y = {
   borderRadius: "18px",
   fontFamily: "ui-sans-serif, system-ui, sans-serif",
   textAlign: "center"
-}, _ = {
+}, k = {
   margin: 0,
   fontSize: "clamp(16px, 2.3vw, 28px)",
   fontWeight: 700,
   letterSpacing: "0.01em"
-}, k = {
+}, C = {
   margin: "8px 0 0",
   maxWidth: "34rem",
   fontSize: "clamp(12px, 1.35vw, 16px)",
   lineHeight: 1.45,
   color: "rgba(255, 255, 255, 0.68)"
 };
-function D(e) {
+function A(e) {
   return {
     ...y,
     ...e,
@@ -58,7 +58,7 @@ function D(e) {
     sourceType: e.sourceType ?? y.sourceType
   };
 }
-function b(e) {
+function U(e) {
   if (!e) return !1;
   try {
     const t = new URL(e);
@@ -67,7 +67,7 @@ function b(e) {
     return !1;
   }
 }
-function T(e) {
+function I(e) {
   try {
     const t = new URL(e);
     return t.protocol === "data:" || t.protocol === "blob:";
@@ -75,7 +75,21 @@ function T(e) {
     return !1;
   }
 }
-function o({ reason: e }) {
+function O(e) {
+  return e.toLowerCase().split(";")[0]?.trim() === "application/json";
+}
+function Y(e) {
+  if (!e || typeof e != "object")
+    throw new Error("Image cache response is not an object");
+  const t = e.cachedUrl;
+  if (typeof t != "string")
+    throw new Error("Image cache response is missing cachedUrl");
+  const i = new URL(t);
+  if (i.protocol !== "https:" || i.origin !== v)
+    throw new Error("Image cache response returned an unexpected CDN URL");
+  return i.href;
+}
+function n({ reason: e }) {
   const t = {
     "missing-local": {
       title: "Image Display is ready",
@@ -95,76 +109,92 @@ function o({ reason: e }) {
     },
     loading: {
       title: "Loading image...",
-      hint: "The selected local image is being prepared by the host runtime."
+      hint: "The selected image is being prepared by the host runtime."
     }
   }[e];
-  return /* @__PURE__ */ l("div", { style: j, children: /* @__PURE__ */ E("div", { children: [
-    /* @__PURE__ */ l("p", { style: _, children: t.title }),
-    /* @__PURE__ */ l("p", { style: k, children: t.hint })
+  return /* @__PURE__ */ a("div", { style: D, children: /* @__PURE__ */ S("div", { children: [
+    /* @__PURE__ */ a("p", { style: k, children: t.title }),
+    /* @__PURE__ */ a("p", { style: C, children: t.hint })
   ] }) });
 }
 function z() {
-  const e = D(F()), { request: t, release: g, isFileReference: U } = v(), [I, u] = s(null), [R, m] = s(null), [x, p] = s(!1), [S, d] = s(!1), [w, c] = s(null);
+  const e = A(j()), { request: t, release: i, isFileReference: b } = F(), [T, p] = u(null), [w, g] = u(null), [E, d] = u(!1), [R, f] = u(!1), [x, s] = u(null);
   h(() => {
-    if (e.sourceType !== "local" || !U(e.wallpaperImage)) {
-      u(null), p(!1);
+    if (e.sourceType !== "local" || !b(e.wallpaperImage)) {
+      p(null), d(!1);
       return;
     }
-    let a = !0, i = null;
-    return p(!0), t("wallpaperImage").then((r) => {
-      i = r, a ? (u(r), c(null)) : g(r);
+    let l = !0, o = null;
+    return d(!0), t("wallpaperImage").then((r) => {
+      o = r, l ? (p(r), s(null)) : i(r);
     }).catch((r) => {
-      console.error("[ImageDisplay] Failed to load selected image:", r), a && u(null);
+      console.error("[ImageDisplay] Failed to load selected image:", r), l && p(null);
     }).finally(() => {
-      a && p(!1);
+      l && d(!1);
     }), () => {
-      a = !1, i && g(i);
+      l = !1, o && i(o);
     };
-  }, [e.sourceType, e.wallpaperImage, t, g, U]), h(() => {
-    if (e.sourceType !== "url" || !b(e.imageUrl) || T(e.imageUrl)) {
-      m(null), d(!1);
+  }, [e.sourceType, e.wallpaperImage, t, i, b]), h(() => {
+    if (e.sourceType !== "url" || !U(e.imageUrl) || I(e.imageUrl)) {
+      g(null), f(!1);
       return;
     }
-    let a = !0, i = null;
-    return d(!0), fetch(e.imageUrl, {
+    let l = !0, o = null;
+    return f(!0), fetch(e.imageUrl, {
       credentials: "omit",
+      headers: {
+        accept: "image/*",
+        [_]: "image-cdn"
+      },
       mode: "cors",
       redirect: "error",
       referrerPolicy: "no-referrer"
-    }).then((r) => {
+    }).then(async (r) => {
       if (!r.ok)
         throw new Error(`Image request failed: ${r.status}`);
-      const f = r.headers.get("content-type") ?? "";
-      if (f && !f.toLowerCase().startsWith("image/"))
-        throw new Error(`URL does not point to an image: ${f}`);
-      return r.blob();
+      const m = r.headers.get("content-type") ?? "";
+      if (O(m))
+        return {
+          kind: "url",
+          url: Y(await r.json())
+        };
+      if (m && !m.toLowerCase().startsWith("image/"))
+        throw new Error(`URL does not point to an image: ${m}`);
+      return {
+        kind: "blob",
+        blob: await r.blob()
+      };
     }).then((r) => {
-      i = URL.createObjectURL(r), a ? (m(i), c(null)) : URL.revokeObjectURL(i);
+      if (r.kind === "url") {
+        l && (g(r.url), s(null));
+        return;
+      }
+      o = URL.createObjectURL(r.blob), l ? (g(o), s(null)) : URL.revokeObjectURL(o);
     }).catch((r) => {
-      console.error("[ImageDisplay] Failed to load remote image:", r), a && m(null);
+      console.error("[ImageDisplay] Failed to load remote image:", r), l && g(null);
     }).finally(() => {
-      a && d(!1);
+      l && f(!1);
     }), () => {
-      a = !1, i && URL.revokeObjectURL(i);
+      l = !1, o && URL.revokeObjectURL(o);
     };
   }, [e.sourceType, e.imageUrl]);
-  const n = e.sourceType === "url" ? T(e.imageUrl) ? e.imageUrl : R : I;
+  const c = e.sourceType === "url" ? I(e.imageUrl) ? e.imageUrl : w : T;
   return h(() => {
-    c(null);
-  }, [n]), e.sourceType === "url" && !e.imageUrl ? /* @__PURE__ */ l(o, { reason: "missing-url" }) : e.sourceType === "url" && !b(e.imageUrl) ? /* @__PURE__ */ l(o, { reason: "invalid-url" }) : e.sourceType === "local" && x ? /* @__PURE__ */ l(o, { reason: "loading" }) : e.sourceType === "url" && S ? /* @__PURE__ */ l(o, { reason: "loading" }) : n ? w === n ? /* @__PURE__ */ l(o, { reason: "load-failed" }) : /* @__PURE__ */ l(
+    s(null);
+  }, [c]), e.sourceType === "url" && !e.imageUrl ? /* @__PURE__ */ a(n, { reason: "missing-url" }) : e.sourceType === "url" && !U(e.imageUrl) ? /* @__PURE__ */ a(n, { reason: "invalid-url" }) : e.sourceType === "local" && E ? /* @__PURE__ */ a(n, { reason: "loading" }) : e.sourceType === "url" && R ? /* @__PURE__ */ a(n, { reason: "loading" }) : c ? x === c ? /* @__PURE__ */ a(n, { reason: "load-failed" }) : /* @__PURE__ */ a(
     "img",
     {
-      src: n,
+      src: c,
       alt: "",
       referrerPolicy: "no-referrer",
-      onError: () => c(n),
+      onError: () => s(c),
       style: {
         ...L,
         objectFit: e.objectFit,
         display: "block"
       }
     }
-  ) : /* @__PURE__ */ l(o, { reason: "missing-local" });
+  ) : /* @__PURE__ */ a(n, { reason: "missing-local" });
 }
 export {
   z as default

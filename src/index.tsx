@@ -21,6 +21,9 @@ const ROOT_STYLE = {
   pointerEvents: 'none',
 } as const
 
+const IMAGE_CDN_CACHE_MODE_HEADER = 'x-mywallpaper-cache-mode'
+const MYWALLPAPER_IMAGE_CDN_ORIGIN = 'https://cdn.mywallpaper.online'
+
 const EMPTY_STATE_STYLE = {
   ...ROOT_STYLE,
   display: 'grid',
@@ -81,6 +84,28 @@ function canUseUrlDirectly(value: string): boolean {
   }
 }
 
+function isJsonResponse(contentType: string): boolean {
+  return contentType.toLowerCase().split(';')[0]?.trim() === 'application/json'
+}
+
+function readCachedImageUrl(payload: unknown): string {
+  if (!payload || typeof payload !== 'object') {
+    throw new Error('Image cache response is not an object')
+  }
+
+  const cachedUrl = (payload as { cachedUrl?: unknown }).cachedUrl
+  if (typeof cachedUrl !== 'string') {
+    throw new Error('Image cache response is missing cachedUrl')
+  }
+
+  const url = new URL(cachedUrl)
+  if (url.protocol !== 'https:' || url.origin !== MYWALLPAPER_IMAGE_CDN_ORIGIN) {
+    throw new Error('Image cache response returned an unexpected CDN URL')
+  }
+
+  return url.href
+}
+
 function EmptyImageState({ reason }: { reason: 'missing-local' | 'missing-url' | 'invalid-url' | 'load-failed' | 'loading' }) {
   const copy = {
     'missing-local': {
@@ -101,7 +126,7 @@ function EmptyImageState({ reason }: { reason: 'missing-local' | 'missing-url' |
     },
     loading: {
       title: 'Loading image...',
-      hint: 'The selected local image is being prepared by the host runtime.',
+      hint: 'The selected image is being prepared by the host runtime.',
     },
   }[reason]
 
@@ -178,22 +203,43 @@ export default function ImageDisplay() {
     setIsLoadingRemoteImage(true)
     fetch(settings.imageUrl, {
       credentials: 'omit',
+      headers: {
+        accept: 'image/*',
+        [IMAGE_CDN_CACHE_MODE_HEADER]: 'image-cdn',
+      },
       mode: 'cors',
       redirect: 'error',
       referrerPolicy: 'no-referrer',
     })
-      .then((response) => {
+      .then(async (response) => {
         if (!response.ok) {
           throw new Error(`Image request failed: ${response.status}`)
         }
         const contentType = response.headers.get('content-type') ?? ''
+        if (isJsonResponse(contentType)) {
+          return {
+            kind: 'url' as const,
+            url: readCachedImageUrl(await response.json()),
+          }
+        }
         if (contentType && !contentType.toLowerCase().startsWith('image/')) {
           throw new Error(`URL does not point to an image: ${contentType}`)
         }
-        return response.blob()
+        return {
+          kind: 'blob' as const,
+          blob: await response.blob(),
+        }
       })
-      .then((blob) => {
-        objectUrl = URL.createObjectURL(blob)
+      .then((result) => {
+        if (result.kind === 'url') {
+          if (active) {
+            setRemoteImageUrl(result.url)
+            setFailedSrc(null)
+          }
+          return
+        }
+
+        objectUrl = URL.createObjectURL(result.blob)
         if (active) {
           setRemoteImageUrl(objectUrl)
           setFailedSrc(null)
