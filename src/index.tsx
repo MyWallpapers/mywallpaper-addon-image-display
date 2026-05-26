@@ -18,15 +18,21 @@ const DEFAULT_SETTINGS: Settings = {
 const ROOT_STYLE = {
   width: '100%',
   height: '100%',
+  position: 'relative',
+  overflow: 'hidden',
   pointerEvents: 'none',
 } as const
 
 const IMAGE_STYLE = {
-  ...ROOT_STYLE,
+  position: 'absolute',
+  inset: 0,
   width: '100%',
   height: '100%',
+  maxWidth: 'none',
+  maxHeight: 'none',
   objectPosition: 'center',
   display: 'block',
+  pointerEvents: 'none',
 } as const
 
 const IMAGE_CDN_CACHE_MODE_HEADER = 'x-mywallpaper-cache-mode'
@@ -312,15 +318,17 @@ export default function ImageDisplay() {
   }
 
   return (
-    <img
-      src={src}
-      alt=""
-      referrerPolicy="no-referrer"
-      onError={() => setFailedSrc(src)}
-      style={{
-        ...IMAGE_STYLE,
-        objectFit: settings.objectFit,
-      }}
-    />
+    <div style={ROOT_STYLE}>
+      <img
+        src={src}
+        alt=""
+        referrerPolicy="no-referrer"
+        onError={() => setFailedSrc(src)}
+        style={{
+          ...IMAGE_STYLE,
+          objectFit: settings.objectFit,
+        }}
+      />
+    </div>
   )
 }
