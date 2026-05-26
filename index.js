@@ -10,7 +10,7 @@ const __canvasRuntimeJsxRuntime = __canvasRuntime.reactJsxRuntime;
 const __canvasRuntimeSdk = __canvasRuntime.sdkReact;
 const __canvasRuntimeSdkContracts = __canvasRuntime.sdkContracts;
 const __canvasRuntimeSdkPermissions = __canvasRuntime.sdkPermissions;
-const i = __canvasRuntimeJsxRuntime.jsx;
+const l = __canvasRuntimeJsxRuntime.jsx;
 const j = __canvasRuntimeJsxRuntime.jsxs;
 const F = __canvasRuntimeSdk.useSettings;
 const _ = __canvasRuntimeSdk.useFiles;
@@ -116,34 +116,34 @@ function s({ reason: e }) {
       hint: "The selected image is being prepared by the host runtime."
     }
   }[e];
-  return /* @__PURE__ */ i("div", { style: P, children: /* @__PURE__ */ j("div", { children: [
-    /* @__PURE__ */ i("p", { style: A, children: r.title }),
-    /* @__PURE__ */ i("p", { style: C, children: r.hint })
+  return /* @__PURE__ */ l("div", { style: P, children: /* @__PURE__ */ j("div", { children: [
+    /* @__PURE__ */ l("p", { style: A, children: r.title }),
+    /* @__PURE__ */ l("p", { style: C, children: r.hint })
   ] }) });
 }
 function q() {
-  const e = D(F()), { request: r, release: a, isFileReference: y } = _(), [w, d] = g(null), [R, m] = g(null), [E, f] = g(!1), [x, h] = g(!1), [S, c] = g(null);
+  const e = D(F()), { request: r, release: a, isFileReference: y } = _(), [R, d] = g(null), [w, m] = g(null), [E, f] = g(!1), [x, h] = g(!1), [S, c] = g(null);
   U(() => {
     if (e.sourceType !== "local" || !y(e.wallpaperImage)) {
       d(null), f(!1);
       return;
     }
-    let l = !0, o = null;
+    let i = !0, o = null;
     return f(!0), r("wallpaperImage").then((n) => {
-      o = n, l ? (d(n), c(null)) : a(n);
+      o = n, i ? (d(n), c(null)) : a(n);
     }).catch((n) => {
-      console.error("[ImageDisplay] Failed to load selected image:", n), l && d(null);
+      console.error("[ImageDisplay] Failed to load selected image:", n), i && d(null);
     }).finally(() => {
-      l && f(!1);
+      i && f(!1);
     }), () => {
-      l = !1, o && a(o);
+      i = !1, o && a(o);
     };
   }, [e.sourceType, e.wallpaperImage, r, a, y]), U(() => {
     if (e.sourceType !== "url" || !L(e.imageUrl) || T(e.imageUrl)) {
       m(null), h(!1);
       return;
     }
-    let l = !0, o = null;
+    let i = !0, o = null;
     h(!0);
     const n = Y(e.imageUrl);
     return fetch(n, {
@@ -153,7 +153,7 @@ function q() {
         [v]: "image-cdn"
       },
       mode: "cors",
-      redirect: "follow",
+      redirect: "error",
       referrerPolicy: "no-referrer"
     }).then(async (t) => {
       if (!t.ok)
@@ -172,22 +172,22 @@ function q() {
       };
     }).then((t) => {
       if (t.kind === "url") {
-        l && (m(t.url), c(null));
+        i && (m(t.url), c(null));
         return;
       }
-      o = URL.createObjectURL(t.blob), l ? (m(o), c(null)) : URL.revokeObjectURL(o);
+      o = URL.createObjectURL(t.blob), i ? (m(o), c(null)) : URL.revokeObjectURL(o);
     }).catch((t) => {
-      console.error("[ImageDisplay] Failed to load remote image:", t), l && m(null);
+      console.error("[ImageDisplay] Failed to load remote image:", t), i && m(null);
     }).finally(() => {
-      l && h(!1);
+      i && h(!1);
     }), () => {
-      l = !1, o && URL.revokeObjectURL(o);
+      i = !1, o && URL.revokeObjectURL(o);
     };
   }, [e.sourceType, e.imageUrl]);
-  const u = e.sourceType === "url" ? T(e.imageUrl) ? e.imageUrl : R : w;
+  const u = e.sourceType === "url" ? T(e.imageUrl) ? e.imageUrl : w : R;
   return U(() => {
     c(null);
-  }, [u]), e.sourceType === "url" && !e.imageUrl ? /* @__PURE__ */ i(s, { reason: "missing-url" }) : e.sourceType === "url" && !L(e.imageUrl) ? /* @__PURE__ */ i(s, { reason: "invalid-url" }) : e.sourceType === "local" && E ? /* @__PURE__ */ i(s, { reason: "loading" }) : e.sourceType === "url" && x ? /* @__PURE__ */ i(s, { reason: "loading" }) : u ? S === u ? /* @__PURE__ */ i(s, { reason: "load-failed" }) : /* @__PURE__ */ i(
+  }, [u]), e.sourceType === "url" && !e.imageUrl ? /* @__PURE__ */ l(s, { reason: "missing-url" }) : e.sourceType === "url" && !L(e.imageUrl) ? /* @__PURE__ */ l(s, { reason: "invalid-url" }) : e.sourceType === "local" && E ? /* @__PURE__ */ l(s, { reason: "loading" }) : e.sourceType === "url" && x ? /* @__PURE__ */ l(s, { reason: "loading" }) : u ? S === u ? /* @__PURE__ */ l(s, { reason: "load-failed" }) : /* @__PURE__ */ l(
     "img",
     {
       src: u,
@@ -200,7 +200,7 @@ function q() {
         display: "block"
       }
     }
-  ) : /* @__PURE__ */ i(s, { reason: "missing-local" });
+  ) : /* @__PURE__ */ l(s, { reason: "missing-local" });
 }
 export {
   q as default

@@ -216,7 +216,7 @@ export default function ImageDisplay() {
         [IMAGE_CDN_CACHE_MODE_HEADER]: 'image-cdn',
       },
       mode: 'cors',
-      redirect: 'follow',
+      redirect: 'error',
       referrerPolicy: 'no-referrer',
     })
       .then(async (response) => {
