@@ -9,7 +9,7 @@ interface Settings {
 }
 
 const DEFAULT_SETTINGS: Settings = {
-  sourceType: 'local',
+  sourceType: 'url',
   wallpaperImage: null,
   imageUrl: '',
   objectFit: 'cover',
@@ -75,6 +75,12 @@ function isUsableUrl(value: string): boolean {
   }
 }
 
+function normalizeRemoteImageUrl(value: string): string {
+  const url = new URL(value)
+  url.hash = ''
+  return url.href
+}
+
 function canUseUrlDirectly(value: string): boolean {
   try {
     const url = new URL(value)
@@ -109,20 +115,20 @@ function readCachedImageUrl(payload: unknown): string {
 function EmptyImageState({ reason }: { reason: 'missing-local' | 'missing-url' | 'invalid-url' | 'load-failed' | 'loading' }) {
   const copy = {
     'missing-local': {
-      title: 'Image Display is ready',
-      hint: 'Select an image in the layer settings to show it on the wallpaper.',
+      title: 'Choose an image',
+      hint: 'Pick a local image in the layer settings.',
     },
     'missing-url': {
-      title: 'Image Display is ready',
-      hint: 'Choose "Online URL" and paste an image URL, or switch back to a local upload.',
+      title: 'Paste an image URL',
+      hint: 'Any public HTTPS image URL is accepted.',
     },
     'invalid-url': {
       title: 'Image URL is invalid',
-      hint: 'Use an https, data, or blob URL.',
+      hint: 'Use a public HTTPS image URL, or a data/blob URL.',
     },
     'load-failed': {
       title: 'Image could not be loaded',
-      hint: 'Check the selected file or URL, then update the layer settings.',
+      hint: 'Check the file or URL. Some sites block image downloads or require a direct image link.',
     },
     loading: {
       title: 'Loading image...',
@@ -201,14 +207,16 @@ export default function ImageDisplay() {
     let objectUrl: string | null = null
 
     setIsLoadingRemoteImage(true)
-    fetch(settings.imageUrl, {
+    const remoteUrl = normalizeRemoteImageUrl(settings.imageUrl)
+
+    fetch(remoteUrl, {
       credentials: 'omit',
       headers: {
         accept: 'image/*',
         [IMAGE_CDN_CACHE_MODE_HEADER]: 'image-cdn',
       },
       mode: 'cors',
-      redirect: 'error',
+      redirect: 'follow',
       referrerPolicy: 'no-referrer',
     })
       .then(async (response) => {

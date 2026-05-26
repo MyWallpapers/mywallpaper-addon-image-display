@@ -1,7 +1,7 @@
 {
   "name": "Image Display",
-  "version": "1.2.8",
-  "description": "Displays an image as a fullscreen background layer",
+  "version": "1.2.9",
+  "description": "Displays any local or remote image as a fullscreen background layer",
   "author": "MyWallpaper",
   "type": "widget",
   "entry": "index.js",
@@ -15,16 +15,16 @@
     "sourceType": {
       "type": "select",
       "content": {
-        "label": "Image Source",
-        "default": "local",
+        "label": "Image source",
+        "default": "url",
         "options": [
           {
-            "label": "Local Upload",
-            "value": "local"
+            "label": "Image URL",
+            "value": "url"
           },
           {
-            "label": "Online URL",
-            "value": "url"
+            "label": "Local image",
+            "value": "local"
           }
         ]
       }
@@ -32,7 +32,7 @@
     "wallpaperImage": {
       "type": "image",
       "content": {
-        "label": "Upload Image",
+        "label": "Choose local image",
         "showIf": {
           "setting": "sourceType",
           "equals": "local"
@@ -42,7 +42,7 @@
     "imageUrl": {
       "type": "string",
       "content": {
-        "label": "Image URL",
+        "label": "Paste image URL",
         "default": "",
         "showIf": {
           "setting": "sourceType",
@@ -53,19 +53,19 @@
     "objectFit": {
       "type": "select",
       "content": {
-        "label": "Fit",
+        "label": "Fit image",
         "default": "cover",
         "options": [
           {
-            "label": "Cover",
+            "label": "Fill frame",
             "value": "cover"
           },
           {
-            "label": "Contain",
+            "label": "Show whole image",
             "value": "contain"
           },
           {
-            "label": "Stretch",
+            "label": "Stretch image",
             "value": "fill"
           }
         ]
@@ -77,7 +77,7 @@
     "network": {
       "read": true,
       "domains": [
-        "*.alphacoders.com"
+        "*"
       ]
     }
   },
