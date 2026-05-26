@@ -18,14 +18,11 @@ const DEFAULT_SETTINGS: Settings = {
 const ROOT_STYLE = {
   width: '100%',
   height: '100%',
-  position: 'relative',
-  overflow: 'hidden',
   pointerEvents: 'none',
 } as const
 
 const IMAGE_STYLE = {
-  position: 'absolute',
-  inset: 0,
+  ...ROOT_STYLE,
   width: '100%',
   height: '100%',
   objectPosition: 'center',
@@ -315,17 +312,15 @@ export default function ImageDisplay() {
   }
 
   return (
-    <div style={ROOT_STYLE}>
-      <img
-        src={src}
-        alt=""
-        referrerPolicy="no-referrer"
-        onError={() => setFailedSrc(src)}
-        style={{
-          ...IMAGE_STYLE,
-          objectFit: settings.objectFit,
-        }}
-      />
-    </div>
+    <img
+      src={src}
+      alt=""
+      referrerPolicy="no-referrer"
+      onError={() => setFailedSrc(src)}
+      style={{
+        ...IMAGE_STYLE,
+        objectFit: settings.objectFit,
+      }}
+    />
   )
 }
