@@ -1,4 +1,4 @@
-import { useFileUrl, useRemoteAssetUrl, useSettings } from '@mywallpaper/sdk-react'
+import { useFileUrl, useRemoteAssetUrl, useSettings } from '@mywallpaper/runtime-kernel/react'
 import { useEffect, useState } from 'react'
 
 interface Settings {

@@ -1,2 +1,8 @@
 node_modules/
-dist/
+!dist/
+dist/*
+!dist/manifest.json
+!dist/mywallpaper-widget-artifact.json
+!dist/widget.js
+/mywallpaper-widget-artifact.json
+/widget.js

@@ -1,16 +1,17 @@
 {
   "name": "mywallpaper-addon-image-display",
-  "version": "1.2.19",
+  "version": "1.2.20",
   "private": true,
   "type": "module",
+  "packageManager": "pnpm@10.33.0",
   "scripts": {
     "build": "vite build",
     "dev": "vite build --watch",
     "serve": "npx serve dist --cors -l 5174"
   },
   "devDependencies": {
-    "@mywallpaper/sdk-react": "file:../MyWallpaper/packages/sdk-react",
-    "@mywallpaper/vite-plugin": "file:../MyWallpaper/packages/vite-plugin",
+    "@mywallpaper/addon-dev": "file:../MyWallpaper/packages/addon-dev",
+    "@mywallpaper/runtime-kernel": "file:../MyWallpaper/packages/runtime-kernel",
     "@types/react": "^19.0.0",
     "react": "^19.0.0",
     "typescript": "^5.7.0",
