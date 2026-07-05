@@ -1,11 +1,11 @@
 {
   "name": "Image Display",
-  "version": "1.2.20",
-  "description": "Displays any local or remote image as a fullscreen background layer",
+  "version": "2.0.0",
+  "description": "Displays a remote image URL as a fullscreen background layer",
   "author": "MyWallpaper",
-  "type": "widget",
-  "entry": "dist/widget.js",
-  "runtimeVersion": 2,
+  "type": "addon",
+  "runtime": "trusted-browser-v1",
+  "entry": "dist/index.html",
   "categories": [
     "backgrounds",
     "media",
@@ -13,42 +13,11 @@
   ],
   "license": "MIT",
   "settings": {
-    "sourceType": {
-      "type": "select",
-      "content": {
-        "label": "Image source",
-        "default": "url",
-        "options": [
-          {
-            "label": "Image URL",
-            "value": "url"
-          },
-          {
-            "label": "Local image",
-            "value": "local"
-          }
-        ]
-      }
-    },
-    "wallpaperImage": {
-      "type": "image",
-      "content": {
-        "label": "Choose local image",
-        "showIf": {
-          "setting": "sourceType",
-          "equals": "local"
-        }
-      }
-    },
     "imageUrl": {
       "type": "string",
       "content": {
         "label": "Paste image URL",
-        "default": "",
-        "showIf": {
-          "setting": "sourceType",
-          "equals": "url"
-        }
+        "default": ""
       }
     },
     "objectFit": {
@@ -71,15 +40,6 @@
           }
         ]
       }
-    }
-  },
-  "optionalPermissions": {
-    "fileAccess": true,
-    "network": {
-      "read": true,
-      "domains": [
-        "*"
-      ]
     }
   },
   "defaultLayout": {

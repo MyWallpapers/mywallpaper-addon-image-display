@@ -1,8 +1,6 @@
 node_modules/
 !dist/
 dist/*
-!dist/manifest.json
-!dist/mywallpaper-widget-artifact.json
-!dist/widget.js
-/mywallpaper-widget-artifact.json
-/widget.js
+!dist/index.html
+!dist/assets/
+!dist/assets/**
