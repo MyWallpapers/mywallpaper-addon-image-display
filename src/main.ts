@@ -3,7 +3,8 @@ interface Settings {
   objectFit: 'cover' | 'contain' | 'fill'
 }
 
-interface MyWallpaperApi {
+interface MyWallpaperLayerApi {
+  root: HTMLElement
   settings: {
     get(): Partial<Settings>
     subscribe(listener: (settings: Partial<Settings>) => void): () => void
@@ -11,6 +12,10 @@ interface MyWallpaperApi {
   lifecycle?: {
     onDispose(listener: () => void): () => void
   }
+}
+
+interface MyWallpaperApi {
+  layer: MyWallpaperLayerApi
 }
 
 declare global {
@@ -24,13 +29,13 @@ const DEFAULT_SETTINGS: Settings = {
   objectFit: 'cover',
 }
 
-const root = document.getElementById('app') ?? document.body
+const layer = window.MyWallpaper?.layer
+const root = layer?.root ?? document.getElementById('app') ?? document.body
+root.classList.add('mwa-image-display-root')
 
 const style = document.createElement('style')
 style.textContent = `
-  html,
-  body,
-  #app {
+  .mwa-image-display-root {
     width: 100%;
     height: 100%;
     margin: 0;
@@ -38,7 +43,7 @@ style.textContent = `
     background: transparent;
   }
 
-  .image {
+  .mwa-image-display-root .image {
     width: 100%;
     height: 100%;
     display: block;
@@ -48,7 +53,7 @@ style.textContent = `
     pointer-events: none;
   }
 
-  .empty {
+  .mwa-image-display-root .empty {
     width: 100%;
     height: 100%;
     display: grid;
@@ -63,13 +68,13 @@ style.textContent = `
     font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   }
 
-  .empty-title {
+  .mwa-image-display-root .empty-title {
     margin: 0;
     font-size: 22px;
     font-weight: 700;
   }
 
-  .empty-hint {
+  .mwa-image-display-root .empty-hint {
     margin: 8px 0 0;
     max-width: 34rem;
     font-size: 14px;
@@ -160,9 +165,9 @@ function applySettings(settings: Partial<Settings>): void {
   renderImage(normalizeSettings(settings))
 }
 
-applySettings(window.MyWallpaper?.settings.get() ?? DEFAULT_SETTINGS)
-const unsubscribeSettings = window.MyWallpaper?.settings.subscribe(applySettings)
-window.MyWallpaper?.lifecycle?.onDispose(() => {
+applySettings(layer?.settings.get() ?? DEFAULT_SETTINGS)
+const unsubscribeSettings = layer?.settings.subscribe(applySettings)
+layer?.lifecycle?.onDispose(() => {
   unsubscribeSettings?.()
   currentImage = null
 })
