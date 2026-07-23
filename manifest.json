@@ -1,56 +1,42 @@
 {
+  "runtime": "canvas-v1",
   "name": "Image Display",
-  "version": "2.1.0",
-  "description": "Displays a remote image URL as a fullscreen background layer",
-  "author": "MyWallpaper",
-  "type": "addon",
-  "runtime": "trusted-native-canvas-v1",
+  "description": "Displays a live image URL as a full-layer background.",
+  "version": "2.1.1",
   "entry": "dist/index.html",
-  "categories": [
-    "backgrounds",
-    "media",
-    "utility"
-  ],
-  "license": "MIT",
-  "settings": {
-    "imageUrl": {
-      "type": "string",
-      "content": {
-        "label": "Paste image URL",
-        "default": ""
-      }
-    },
-    "objectFit": {
-      "type": "select",
-      "content": {
-        "label": "Fit image",
-        "default": "cover",
-        "options": [
-          {
-            "label": "Fill frame",
-            "value": "cover"
-          },
-          {
-            "label": "Show whole image",
-            "value": "contain"
-          },
-          {
-            "label": "Stretch image",
-            "value": "fill"
-          }
-        ]
-      }
-    }
-  },
-  "defaultLayout": {
-    "xPercent": 0,
-    "yPercent": 0,
-    "widthPercent": 100,
-    "heightPercent": 100,
-    "rotation": 0
-  },
+  "thumbnail": "thumbnail.png",
+  "deviceSettingsVersion": "1",
   "ui": {
     "pointerEvents": "none"
   },
-  "repository": "https://github.com/MyWallpapers/mywallpaper-addon-image-display"
+  "settings": [
+    {
+      "id": "imageUrl",
+      "type": "string",
+      "label": "Image URL",
+      "description": "Paste a public HTTP(S), data or blob image URL.",
+      "default": "",
+      "placeholder": "https://example.com/image.jpg"
+    },
+    {
+      "id": "objectFit",
+      "type": "select",
+      "label": "Fit image",
+      "default": "cover",
+      "options": [
+        {
+          "label": "Fill frame",
+          "value": "cover"
+        },
+        {
+          "label": "Show whole image",
+          "value": "contain"
+        },
+        {
+          "label": "Stretch image",
+          "value": "fill"
+        }
+      ]
+    }
+  ]
 }
