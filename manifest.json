@@ -2,7 +2,7 @@
   "runtime": "canvas-v1",
   "name": "Image Display",
   "description": "Displays a live image URL as a full-layer background.",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "entry": "dist/index.html",
   "thumbnail": "assets/thumbnail.png",
   "deviceSettingsVersion": "1",
