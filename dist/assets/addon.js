@@ -1,3 +1,4 @@
+
 const h={objectFit:"cover"};function w({layer:a}){const e=a.root;e.classList.add("mwa-image-display-root");const l=document.createElement("style");l.textContent=`
     .mwa-image-display-root {
       width: 100%;
